@@ -6,7 +6,7 @@ hd44780_I2Cexp lcd;
 const int LCD_COLS = 16, LCD_ROWS = 2;
 const int input_pin = 15; 
 const int output_pin = 16;
-const int divisor = 12500; // for 10 kHz test signal output
+const int divisor = F_CPU / 10000;            // for 10 kHz test signal output
 int slice_num = pwm_gpio_to_slice_num(input_pin);
 int output_slice_num = pwm_gpio_to_slice_num(output_pin);
 
