@@ -1,9 +1,9 @@
 #include <RCSwitch.h>
 #include <PWMAudio.h>
-const int rx_pin=16, led1_pin=13, led2_pin=15, audio_pin=14;
-const int RATE = 44000;  // PWM frequency and audio sample rate, Hz
-// ADSR:  Attack rate    Decay rate    Sustain lev  Release rate
-float     A = 10.0/RATE, D = 5.0/RATE, S = 0.7,     R = 10.0/RATE;
+const int rx_pin=16,led1_pin=13,led2_pin=15,audio_pin=14;
+const int RATE = 44000; // PWM frequency & sample rate Hz
+// ADSR:  Attack rate  Decay rate  Sustain Release rate
+float     A=10.0/RATE, D=5.0/RATE, S=0.7,  R=10.0/RATE;
 RCSwitch rx = RCSwitch();
 PWMAudio audio = PWMAudio(audio_pin);
 // musical note frequencies in Hz
@@ -65,8 +65,8 @@ void play(float f, float len) {
 }
 void loop() {
   int code;  
-  for (int i = 0; i < 4*32; i++)   // fill audio buffers with 0 - silence
-    audio.write(0);
+  for (int i = 0; i < 4*32; i++) 
+    audio.write(0); // clear buffer - silence
   if (rx.available()) {
     code = rx.getReceivedValue();
     Serial.print("Received ");
@@ -82,7 +82,7 @@ void loop() {
       play(G4, 0.8);
       digitalWrite(led1_pin, 0);
     }
-    if (code == 1315861)  { // react differently to another
+    if (code == 1315861)  { //  another button
       digitalWrite(led2_pin, 1);
       play(E4*2, 0.4);
       play(C4*2, 0.8);

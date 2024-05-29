@@ -4,37 +4,37 @@
 #include <SI470X.h>
 hd44780_I2Cexp lcd;
 SI470X rx;
-const int LCD_COLS = 16;      
+const int LCD_COLS = 16;
 const int LCD_ROWS =  2;
 const int seek_down_pin =  9; // seek down button, pin 12
 const int seek_up_pin   = 11; // seek up button, pin 15
 const int reset_pin     = 14; // Si4703 reset, pin 19
 const int SDA_pin       =  4; // I2C data, pin 6
 
-void setup() 
+void setup()
 {
-  rx.setup(reset_pin, SDA_pin); 
+  rx.setup(reset_pin, SDA_pin);
   int status = lcd.begin(LCD_COLS, LCD_ROWS);
   if(status)
     hd44780::fatalError(status); // does not return
   rx.setFrequency(10180);        // frequency(in MHz) * 100
   rx.setAgc(1);                  // enable automatic gain control
-  rx.setExtendedVolumeRange(1);  // set lower volume scale (for earphones)
-  rx.setVolume(10);              // set volume (range 0..15, 0 is silent)
+  rx.setExtendedVolumeRange(1);  // set lower volume scale
+  rx.setVolume(10);              // set volume (range 0..15)
   // rx.setFmDeemphasis(1);      // for the European FM standard
   rx.setRds(true);               // enables RDS
-  rx.setRdsMode(1);              
+  rx.setRdsMode(1);
   pinMode(seek_down_pin, INPUT_PULLDOWN);
   pinMode(seek_up_pin, INPUT_PULLDOWN);
 }
 
 char str[20];
 int i = 0;
-void loop() 
+void loop()
 {
-  // remove comment signs below to wait for a button press
-  // while(!(digitalRead(seek_down_pin) || digitalRead(seek_up_pin)))
-  //   delay(5);
+  //remove comment signs below to wait for a button press
+  //while(!(digitalRead(seek_down_pin)||digitalRead(seek_up_pin)))
+  //  delay(5);
 
   if (digitalRead(seek_down_pin) || digitalRead(seek_up_pin))
   { // clear RDS data when changing station
@@ -42,7 +42,7 @@ void loop()
     lcd.clear();
   }
   if (digitalRead(seek_down_pin))
-    rx.seek(0, 0); 
+    rx.seek(0, 0);
   if (digitalRead(seek_up_pin))
     rx.seek(0, 1);
 
